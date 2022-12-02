@@ -33,11 +33,11 @@ public class AppoinmentController {
 	@GetMapping("appoinments")
 	public ResponseEntity<List<AppoinmentDTO>> getList() {
 
-		List<AppoinmentDTO> lstAppoinment = appoinmentsService.getList();
-		if (lstAppoinment.isEmpty()) {
-			return new ResponseEntity<>(lstAppoinment, HttpStatus.NO_CONTENT);
+		List<AppoinmentDTO> lstAppoinmentDTO = appoinmentsService.getList();
+		if (lstAppoinmentDTO.isEmpty()) {
+			return new ResponseEntity<>(lstAppoinmentDTO, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lstAppoinment, HttpStatus.OK);
+		return new ResponseEntity<>(lstAppoinmentDTO, HttpStatus.OK);
 	}
 
 	@GetMapping("appoinments/{id}")
