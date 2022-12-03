@@ -11,6 +11,8 @@ public interface TestService {
 	TestDTO getById(int id);
 
 	void post(TestDTO testDTO);
+	
+	void put (TestDTO testDTO) throws Exception;
 
 	void delete(int id);
 }

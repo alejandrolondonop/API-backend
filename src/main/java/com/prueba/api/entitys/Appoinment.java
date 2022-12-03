@@ -20,14 +20,14 @@ import lombok.Data;
 public class Appoinment {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "date")
+	@Column(name = "date", nullable = false)
 	private Date date;
 	
-	@Column(name = "hour")
+	@Column(name = "hour", nullable = false)
 	private Date hour;
 	
 	@JoinColumn(name = "id_affiliate")

@@ -16,16 +16,15 @@ import com.prueba.api.entitys.Test;
 import com.prueba.api.repository.AppoinmentsRepository;
 
 @Service
-public class AppoinmentsServiceImpl implements AppoinmentsService{
+public class AppoinmentsServiceImpl implements AppoinmentsService {
 
 	@Autowired
 	private AppoinmentsRepository appoinmentRepository;
-	
+
 	private SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat formatDateAppoinment = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
-	
 	@Override
 	public List<AppoinmentDTO> getList() {
 		List<Appoinment> lstAppoinment = new ArrayList<>();
@@ -51,15 +50,15 @@ public class AppoinmentsServiceImpl implements AppoinmentsService{
 	public AppoinmentDTO getById(int id) {
 		Optional<Appoinment> optionalAppoinment = appoinmentRepository.findById(id);
 		Appoinment appoinment = optionalAppoinment.isPresent() ? optionalAppoinment.get() : null;
-		
+
 		AppoinmentDTO appoinmentDTO = new AppoinmentDTO();
-		
+
 		appoinmentDTO.setDate(formatDate.format(appoinment.getDate()));
 		appoinmentDTO.setHour(formatTime.format(appoinment.getHour()));
 		appoinmentDTO.setId(appoinment.getId());
 		appoinmentDTO.setIdAffiliates(appoinment.getAffiliate().getId());
 		appoinmentDTO.setIdTest(appoinment.getTest().getId());
-		
+
 		return appoinmentDTO;
 	}
 
@@ -87,13 +86,45 @@ public class AppoinmentsServiceImpl implements AppoinmentsService{
 		appoinment.setTest(test);
 
 		appoinmentRepository.save(appoinment);
-		
+
+	}
+
+	@Override
+	public void put(AppoinmentDTO appoinmentDTO) throws Exception {
+		AppoinmentDTO appoinment = getById(appoinmentDTO.getId());
+
+		if (appoinment == null) {
+			throw new Exception("El registro no se encontró");
+		}
+
+		Appoinment appoinmentEntity = new Appoinment();
+
+		appoinmentEntity.setId(appoinmentDTO.getId());
+		try {
+			appoinmentEntity.setDate(formatDate.parse(appoinmentDTO.getDate()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		try {
+			appoinmentEntity.setHour(formatTime.parse(appoinmentDTO.getHour()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Affiliate affiliate = new Affiliate();
+		Test test = new Test();
+		test.setId(appoinmentDTO.getIdTest());
+		affiliate.setId(appoinmentDTO.getIdAffiliates());
+		appoinmentEntity.setAffiliate(affiliate);
+		appoinmentEntity.setTest(test);
+
+		appoinmentRepository.save(appoinmentEntity);
+
 	}
 
 	@Override
 	public void delete(int id) {
 		appoinmentRepository.deleteById(id);
-		
+
 	}
 
 	@Override
@@ -102,7 +133,7 @@ public class AppoinmentsServiceImpl implements AppoinmentsService{
 		try {
 			lstAppoinment = appoinmentRepository.findByDate(formatDateAppoinment.parse(date));
 		} catch (ParseException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -128,7 +159,7 @@ public class AppoinmentsServiceImpl implements AppoinmentsService{
 		Affiliate affiliate = new Affiliate();
 		affiliate.setId(idAffiliate);
 		lstAppoinment = appoinmentRepository.findByAffiliate(affiliate);
-		
+
 		List<AppoinmentDTO> lstAppoinmentDTO = new ArrayList<>();
 		AppoinmentDTO appoinmentDTO;
 
@@ -140,6 +171,7 @@ public class AppoinmentsServiceImpl implements AppoinmentsService{
 			appoinmentDTO.setId(ap.getId());
 			appoinmentDTO.setIdAffiliates(ap.getAffiliate().getId());
 			appoinmentDTO.setIdTest(ap.getTest().getId());
+
 			lstAppoinmentDTO.add(appoinmentDTO);
 		}
 		return lstAppoinmentDTO;

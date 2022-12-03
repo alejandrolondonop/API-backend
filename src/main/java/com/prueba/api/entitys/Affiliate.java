@@ -20,17 +20,17 @@ import lombok.Data;
 public class Affiliate {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "age")
+	@Column(name = "age",nullable = false )
 	private int age;
 
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String email;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "affiliate")

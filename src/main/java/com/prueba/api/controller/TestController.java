@@ -37,12 +37,12 @@ public class TestController {
 	@GetMapping("tests/{id}")
 	public ResponseEntity<TestDTO> getById(@PathVariable("id") int id) {
 
-		TestDTO testDTO = testService.getById(id);
-		if (testDTO == null) {
+		try {
+			TestDTO testDTO = testService.getById(id);
+			return new ResponseEntity<>(testDTO, HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-
-		return new ResponseEntity<>(testDTO, HttpStatus.OK);
 
 	}
 
@@ -58,7 +58,12 @@ public class TestController {
 
 	@PutMapping("tests")
 	public ResponseEntity<Void> put(@RequestBody TestDTO testDTO) {
-		return post(testDTO);
+		try {
+			testService.put(testDTO);
+			return new ResponseEntity<>(null, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@DeleteMapping("tests/{id}")

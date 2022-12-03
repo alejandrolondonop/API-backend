@@ -1,6 +1,5 @@
 package com.prueba.api.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,9 @@ public class AppoinmentController {
 	@Autowired
 	AppoinmentsService appoinmentsService;
 
-	private SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-	private SimpleDateFormat formatDateAppoinment = new SimpleDateFormat("yyyy-MM-dd");
-	private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+//	private SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+//	private SimpleDateFormat formatDateAppoinment = new SimpleDateFormat("yyyy-MM-dd");
+//	private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 	@GetMapping("appoinments")
 	public ResponseEntity<List<AppoinmentDTO>> getList() {
@@ -43,12 +42,12 @@ public class AppoinmentController {
 	@GetMapping("appoinments/{id}")
 	public ResponseEntity<AppoinmentDTO> getById(@PathVariable("id") int id) {
 
-		AppoinmentDTO appoinmentDTO = appoinmentsService.getById(id);
-
-		if (appoinmentDTO == null) {
+		try {
+			AppoinmentDTO appoinmentDTO = appoinmentsService.getById(id);
+			return new ResponseEntity<>(appoinmentDTO, HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(appoinmentDTO, HttpStatus.OK);
 
 	}
 
@@ -64,7 +63,12 @@ public class AppoinmentController {
 
 	@PutMapping("appoinments")
 	public ResponseEntity<Void> put(@RequestBody AppoinmentDTO appoinmentDTO) {
-		return post(appoinmentDTO);
+		try {
+			appoinmentsService.put(appoinmentDTO);
+			return new ResponseEntity<>(null, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@DeleteMapping("appoinments/{id}")

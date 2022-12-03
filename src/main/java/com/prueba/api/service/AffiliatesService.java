@@ -12,6 +12,7 @@ public interface AffiliatesService {
 
 	void post(AffiliateDTO affiliateDTO);
 
+	void put(AffiliateDTO affiliateDTO) throws Exception;
+
 	void delete(int id);
 }
-

@@ -38,13 +38,12 @@ public class AffiliatesController {
 	@GetMapping("affiliates/{id}")
 	public ResponseEntity<AffiliateDTO> getById(@PathVariable("id") int id) {
 
-		AffiliateDTO affiliateDTO = affiliatesService.getById(id);
-
-		if (affiliateDTO == null) {
+		try {
+			AffiliateDTO affiliateDTO = affiliatesService.getById(id);
+			return new ResponseEntity<>(affiliateDTO, HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-
-		return new ResponseEntity<>(affiliateDTO, HttpStatus.OK);
 
 	}
 
@@ -60,7 +59,12 @@ public class AffiliatesController {
 
 	@PutMapping("affiliates")
 	public ResponseEntity<Void> put(@RequestBody AffiliateDTO affiliateDTO) {
-		return post(affiliateDTO);
+		try {
+			affiliatesService.put(affiliateDTO);
+			return new ResponseEntity<>(null, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@DeleteMapping("affiliates/{id}")

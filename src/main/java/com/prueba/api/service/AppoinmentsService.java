@@ -12,6 +12,8 @@ public interface AppoinmentsService {
 
 	void post(AppoinmentDTO appoinmentDTO);
 
+	void put(AppoinmentDTO appoinmentDTO) throws Exception;
+
 	void delete(int id);
 
 	List<AppoinmentDTO> getByDate(String date);
