@@ -1,5 +1,7 @@
 package com.prueba.api.controller;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -28,14 +30,14 @@ class TestControllerTest {
 	private TestService testServiceMock;
 
 	@Test
-	public void testGetAllTest_NO_CONTENT() {
+	public void testGetAllTestNoContent() {
 		when(testServiceMock.getList()).thenReturn(Collections.emptyList());
 		var response = testController.getAll();
 		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
 
 	@Test
-	public void testGetAllTest_OK() {
+	public void testGetAllTestOk() {
 		var list = new ArrayList<TestDTO>();
 		list.add(new TestDTO());
 
@@ -47,16 +49,16 @@ class TestControllerTest {
 	}
 
 	@Test
-	public void testGetTestById_NOT_FOUND() {
-		when(testServiceMock.getById(1)).thenReturn(null);
+	public void testGetTestByIdNotFound() {
+		doThrow(new RuntimeException()).when(testServiceMock).getById(2);
 
-		var response = testController.getById(1);
+		var response = testController.getById(2);
 		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 
 	}
 
 	@Test
-	public void testGetTestById_OK() {
+	public void testGetTestByIdOk() {
 
 		TestDTO test = new TestDTO();
 		when(testServiceMock.getById(1)).thenReturn(test);
@@ -64,38 +66,68 @@ class TestControllerTest {
 		var response = testController.getById(1);
 		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
-	
+
 	@Test
-	public void testPostTest_CREATED() {
+	public void testPostTestCreated() {
 		TestDTO affiliate = new TestDTO();
-		
+
 		affiliate.setId(0);
 		affiliate.setName("test");
 		affiliate.setDescription("Test description");
-		
-		
-		
+
 		var response = testController.post(affiliate);
 		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 	}
-	
+
 	@Test
-	public void testPostTest_NOT_FOUND() {
+	public void testPostTestNotFound() {
+		doNothing().when(testServiceMock).post(null);
 		TestDTO testDTO = new TestDTO();
-		
+
 		testDTO.setName(null);
-		
+
 		var response = testController.post(testDTO);
 		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 	
 	@Test
-	public void testDeleteTest_OK() {
+	public void testPutTestCreated() {
+		TestDTO affiliate = new TestDTO();
+
+		affiliate.setId(0);
+		affiliate.setName("test");
+		affiliate.setDescription("Test description");
+
+		var response = testController.put(affiliate);
+		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+	}
+
+	@Test
+	public void testPutTestNotFound() throws Exception {
+		doNothing().when(testServiceMock).put(null);
+		TestDTO testDTO = new TestDTO();
+
+		testDTO.setName(null);
+
+		var response = testController.put(testDTO);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	@Test
+	public void testDeleteTestOk() {
 		int id = 1;
-		
+
 		var response = testController.delete(id);
 		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-		
+
+	}
+
+	@Test
+	public void testDeleteTestNoContent() {
+		doThrow(new RuntimeException()).when(testServiceMock).delete(1);
+
+		var response = testController.delete(2);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
 
 }

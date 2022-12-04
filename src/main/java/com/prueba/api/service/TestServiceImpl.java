@@ -64,26 +64,27 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@Override
+	public void put(TestDTO testDTO) throws Exception {
+		TestDTO test = getById(testDTO.getId());
+
+		if (test == null) {
+			throw new Exception("El registro no se encontró");
+		}
+
+		Test testEntity = new Test();
+
+		testEntity.setId(testDTO.getId());
+		testEntity.setName(testDTO.getName());
+		testEntity.setDescription(testDTO.getDescription());
+
+		testRepository.save(testEntity);
+	}
+
+	@Override
 	public void delete(int id) {
 		testRepository.deleteById(id);
 		
 	}
 
-	@Override
-	public void put(TestDTO testDTO) throws Exception {
-		TestDTO test = getById(testDTO.getId());
-		
-		if(test == null) {
-			throw new Exception("El registro no se encontró");
-		}
-		
-		Test testEntity = new Test();
-		
-		testEntity.setId(testDTO.getId());
-		testEntity.setName(testDTO.getName());
-		testEntity.setDescription(testDTO.getDescription());
-		
-		testRepository.save(testEntity);
-	}
 
 }
