@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.prueba.api.dto.AffiliateDTO;
 import com.prueba.api.service.AffiliatesService;
@@ -31,29 +33,29 @@ class AffiliatesControllerTest {
 
 	@Test
 	public void testGetAllAffiliatesOk() {
-		var list = new ArrayList<AffiliateDTO>();
-		list.add(new AffiliateDTO());
+		var list = (var) new ArrayList<AffiliateDTO>();
+		((ArrayList<AffiliateDTO>) list).add(new AffiliateDTO());
 
-		when(affiliateServiceMock.getList()).thenReturn(list);
+		when(affiliateServiceMock.getList()).thenReturn((List<AffiliateDTO>) list);
 
-		var response = affiliatesController.getAll();
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) affiliatesController.getAll();
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 
 	}
 
 	@Test
 	public void testGetAllAffiliatesNoContent() {
 		when(affiliateServiceMock.getList()).thenReturn(Collections.emptyList());
-		var response = affiliatesController.getAll();
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) affiliatesController.getAll();
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 	}
 
 	@Test
 	public void testGetAffiliateByIdNotFound() {
 		doThrow(new RuntimeException()).when(affiliateServiceMock).getById(2);
 
-		var response = affiliatesController.getById(2);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) affiliatesController.getById(2);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 	}
 
 	@Test
@@ -62,8 +64,8 @@ class AffiliatesControllerTest {
 		AffiliateDTO affiliate = new AffiliateDTO();
 		when(affiliateServiceMock.getById(1)).thenReturn(affiliate);
 
-		var response = affiliatesController.getById(1);
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) affiliatesController.getById(1);
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 
 	}
 
@@ -76,8 +78,8 @@ class AffiliatesControllerTest {
 		affiliate.setAge(0);
 		affiliate.setEmail("mailtest");
 
-		var response = affiliatesController.post(affiliate);
-		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		var response = (var) affiliatesController.post(affiliate);
+		Assertions.assertEquals(HttpStatus.CREATED, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 	}
 
 	@Test
@@ -90,8 +92,8 @@ class AffiliatesControllerTest {
 		affiliateDTO.setAge(0);
 		affiliateDTO.setEmail(null);
 
-		var response = affiliatesController.post(affiliateDTO);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) affiliatesController.post(affiliateDTO);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 	}
 	
 	@Test
@@ -103,8 +105,8 @@ class AffiliatesControllerTest {
 		affiliate.setAge(0);
 		affiliate.setEmail("mailtest");
 
-		var response = affiliatesController.put(affiliate);
-		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		var response = (var) affiliatesController.put(affiliate);
+		Assertions.assertEquals(HttpStatus.CREATED, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 	}
 
 	@Test
@@ -117,8 +119,8 @@ class AffiliatesControllerTest {
 		affiliateDTO.setAge(0);
 		affiliateDTO.setEmail(null);
 
-		var response = affiliatesController.put(affiliateDTO);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) affiliatesController.put(affiliateDTO);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 	}
 	
 	
@@ -127,8 +129,8 @@ class AffiliatesControllerTest {
 	public void testDeleteOk() {
 		int id = 1;
 
-		var response = affiliatesController.delete(id);
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) affiliatesController.delete(id);
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 
 	}
 
@@ -136,8 +138,8 @@ class AffiliatesControllerTest {
 	public void testDeleteNoContent() {
 		doThrow(new RuntimeException()).when(affiliateServiceMock).delete(2);
 
-		var response = affiliatesController.delete(2);
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) affiliatesController.delete(2);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<AffiliateDTO>>) response).getStatusCode());
 
 	}
 

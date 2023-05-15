@@ -12,9 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
 
-@Data
+
+
 @Entity
 @Table(name = "appoinments", schema = "public")
 public class Appoinment {
@@ -37,6 +37,50 @@ public class Appoinment {
 	@JoinColumn(name = "id_test")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Test test;
+
+	public Appoinment() {
+		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Date getHour() {
+		return hour;
+	}
+
+	public void setHour(Date hour) {
+		this.hour = hour;
+	}
+
+	public Affiliate getAffiliate() {
+		return affiliate;
+	}
+
+	public void setAffiliate(Affiliate affiliate) {
+		this.affiliate = affiliate;
+	}
+
+	public Test getTest() {
+		return test;
+	}
+
+	public void setTest(Test test) {
+		this.test = test;
+	}
 	
 	
 	

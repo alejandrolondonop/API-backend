@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+
 
 @Entity
-@Data
+
 @Table(name = "test", schema = "public")
 public class Test {
 
@@ -32,5 +32,44 @@ public class Test {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "test")
 	private List<Appoinment> lstAppoiment = new ArrayList<>();
+
+	public Test() {
+		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Appoinment> getLstAppoiment() {
+		return lstAppoiment;
+	}
+
+	public void setLstAppoiment(List<Appoinment> lstAppoiment) {
+		this.lstAppoiment = lstAppoiment;
+	}
+	
+	
+	
 
 }

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.prueba.api.dto.TestDTO;
 import com.prueba.api.service.TestService;
@@ -32,19 +34,19 @@ class TestControllerTest {
 	@Test
 	public void testGetAllTestNoContent() {
 		when(testServiceMock.getList()).thenReturn(Collections.emptyList());
-		var response = testController.getAll();
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) testController.getAll();
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 
 	@Test
 	public void testGetAllTestOk() {
-		var list = new ArrayList<TestDTO>();
-		list.add(new TestDTO());
+		var list = (var) new ArrayList<TestDTO>();
+		((List<TestDTO>) list).add(new TestDTO());
 
-		when(testServiceMock.getList()).thenReturn(list);
+		when(testServiceMock.getList()).thenReturn((List<TestDTO>) list);
 
-		var response = testController.getAll();
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) testController.getAll();
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 
 	}
 
@@ -52,8 +54,8 @@ class TestControllerTest {
 	public void testGetTestByIdNotFound() {
 		doThrow(new RuntimeException()).when(testServiceMock).getById(2);
 
-		var response = testController.getById(2);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) testController.getById(2);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 
 	}
 
@@ -63,8 +65,8 @@ class TestControllerTest {
 		TestDTO test = new TestDTO();
 		when(testServiceMock.getById(1)).thenReturn(test);
 
-		var response = testController.getById(1);
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) testController.getById(1);
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 
 	@Test
@@ -75,8 +77,8 @@ class TestControllerTest {
 		affiliate.setName("test");
 		affiliate.setDescription("Test description");
 
-		var response = testController.post(affiliate);
-		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		var response = (var) testController.post(affiliate);
+		Assertions.assertEquals(HttpStatus.CREATED, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 
 	@Test
@@ -86,8 +88,8 @@ class TestControllerTest {
 
 		testDTO.setName(null);
 
-		var response = testController.post(testDTO);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) testController.post(testDTO);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 	
 	@Test
@@ -98,8 +100,8 @@ class TestControllerTest {
 		affiliate.setName("test");
 		affiliate.setDescription("Test description");
 
-		var response = testController.put(affiliate);
-		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		var response = (var) testController.put(affiliate);
+		Assertions.assertEquals(HttpStatus.CREATED, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 
 	@Test
@@ -109,16 +111,16 @@ class TestControllerTest {
 
 		testDTO.setName(null);
 
-		var response = testController.put(testDTO);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) testController.put(testDTO);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 
 	@Test
 	public void testDeleteTestOk() {
 		int id = 1;
 
-		var response = testController.delete(id);
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) testController.delete(id);
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 
 	}
 
@@ -126,8 +128,8 @@ class TestControllerTest {
 	public void testDeleteTestNoContent() {
 		doThrow(new RuntimeException()).when(testServiceMock).delete(1);
 
-		var response = testController.delete(2);
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) testController.delete(2);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<TestDTO>>) response).getStatusCode());
 	}
 
 }

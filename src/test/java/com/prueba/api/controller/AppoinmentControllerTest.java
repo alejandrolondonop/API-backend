@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.prueba.api.dto.AffiliateDTO;
 import com.prueba.api.dto.AppoinmentDTO;
@@ -35,20 +36,20 @@ class AppoinmentControllerTest {
 	public void testGetAllAppoinmentsNoContent() {
 		when(appoinmentServiceMock.getList()).thenReturn(Collections.emptyList());
 
-		var response = appoinmentController.getList();
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) appoinmentController.getList();
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 
 	}
 
 	@Test
 	public void testGetAllAppoinmentsOk() {
-		var list = new ArrayList<AppoinmentDTO>();
-		list.add(new AppoinmentDTO());
+		var list = (var) new ArrayList<AppoinmentDTO>();
+		((List<AppoinmentDTO>) list).add(new AppoinmentDTO());
 
-		when(appoinmentServiceMock.getList()).thenReturn(list);
+		when(appoinmentServiceMock.getList()).thenReturn((List<AppoinmentDTO>) list);
 
-		var response = appoinmentController.getList();
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) appoinmentController.getList();
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 
 	}
 
@@ -56,8 +57,8 @@ class AppoinmentControllerTest {
 	public void testGetAppoinmentByIdNotFound() {
 		doThrow(new RuntimeException()).when(appoinmentServiceMock).getById(1);
 
-		var response = appoinmentController.getById(1);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) appoinmentController.getById(1);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 
 	}
 
@@ -67,16 +68,16 @@ class AppoinmentControllerTest {
 		AppoinmentDTO appoinment = new AppoinmentDTO();
 		when(appoinmentServiceMock.getById(1)).thenReturn(appoinment);
 
-		var response = appoinmentController.getById(1);
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) appoinmentController.getById(1);
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 
 	@Test
 	public void testGetAppoinmentByDateNotFound() {
 		when(appoinmentServiceMock.getByDate("")).thenReturn(Collections.emptyList());
 
-		var response = appoinmentController.getbydate("");
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) appoinmentController.getbydate("");
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 
 	}
 
@@ -87,8 +88,8 @@ class AppoinmentControllerTest {
 		appoinment.add(new AppoinmentDTO());
 		when(appoinmentServiceMock.getByDate("2022-05-10")).thenReturn(appoinment);
 
-		var response = appoinmentController.getbydate("2022-05-10");
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) appoinmentController.getbydate("2022-05-10");
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 	
 	@Test
@@ -101,8 +102,8 @@ class AppoinmentControllerTest {
 		appoinment.setIdAffiliates(1);
 		appoinment.setIdTest(1);
 
-		var response = appoinmentController.post(appoinment);
-		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		var response = (var) appoinmentController.post(appoinment);
+		Assertions.assertEquals(HttpStatus.CREATED, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 	
 	@Test
@@ -116,8 +117,8 @@ class AppoinmentControllerTest {
 		appoinment.setIdAffiliates(1);
 		appoinment.setIdTest(1);
 
-		var response = appoinmentController.post(appoinment);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) appoinmentController.post(appoinment);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 	
 	@Test
@@ -130,8 +131,8 @@ class AppoinmentControllerTest {
 		appoinment.setIdAffiliates(1);
 		appoinment.setIdTest(1);
 
-		var response = appoinmentController.post(appoinment);
-		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		var response = (var) appoinmentController.post(appoinment);
+		Assertions.assertEquals(HttpStatus.CREATED, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 	
 	@Test
@@ -145,8 +146,8 @@ class AppoinmentControllerTest {
 		appoinment.setIdAffiliates(1);
 		appoinment.setIdTest(1);
 
-		var response = appoinmentController.post(appoinment);
-		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		var response = (var) appoinmentController.post(appoinment);
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 	
 	
@@ -154,8 +155,8 @@ class AppoinmentControllerTest {
 	public void testDeleteAppoinmenttOk() {
 		int id = 1;
 
-		var response = appoinmentController.delete(id);
-		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+		var response = (var) appoinmentController.delete(id);
+		Assertions.assertEquals(HttpStatus.OK, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 
 	}
 
@@ -163,8 +164,8 @@ class AppoinmentControllerTest {
 	public void testDeleteAppoinmentNoContent() {
 		doThrow(new RuntimeException()).when(appoinmentServiceMock).delete(1);
 
-		var response = appoinmentController.delete(2);
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		var response = (var) appoinmentController.delete(2);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, ((ResponseEntity<List<AppoinmentDTO>>) response).getStatusCode());
 	}
 
 }
